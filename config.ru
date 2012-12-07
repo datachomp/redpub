@@ -1,7 +1,7 @@
 #our rack file!
 require 'rubygems'
 require 'sinatra'
-require 'haml'
+require 'redis'
 require "./invoice"
 
 set :root, File.dirname(__FILE__)
