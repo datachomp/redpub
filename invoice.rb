@@ -20,8 +20,8 @@ redis = Redis.new
         end
 
         get "/redisinfo/" do
-        	blarb = redis.info
-        	blarb.to_s
+        	renfo = redis.info
+        	renfo.to_s
         end	
 
 end
