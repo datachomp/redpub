@@ -1,6 +1,7 @@
 #our rack file!
 require 'rubygems'
 require 'sinatra'
+require 'sinatra/flash'
 require 'redis'
 require "./invoice"
 

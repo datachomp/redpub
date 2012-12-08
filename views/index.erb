@@ -1,14 +1,14 @@
 <br/><br/>
 <div class="page-header">
-    <h1><%= @greeting %></h1>
+    <h1><%= @greeting %> <%= flash[:winner] %></h1>
+    
   </div>
   <div class="row">
     <div class="span4">
-      <h3># of Invoices</h3>
+      <h3># of random winners</h3>
       <ul>
-        <li>5</li>
+        <li><%= @randomwinnercount.to_s %></li>
         <li>yay ints!</li>
-        <button>increase </button>
       </ul>
     </div>
     <div class="span4">
