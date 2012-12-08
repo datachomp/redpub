@@ -12,3 +12,5 @@ gem "unicorn"
 
 #data
 gem "redis"
+#Redis monitoring webapp written in Sinatra
+gem 'redmon', require: false
