@@ -11,8 +11,7 @@ class InvoiceApp < Sinatra::Base
         set :public_folder, 'public/'
         set :haml, :format => :html5
 
-redis = Redis.new
-redis.set "appgreeting", "Welcome Users!"
+        redis = Redis.new
 
         get "/" do 
                 redis.incr "visitorreward"
@@ -23,6 +22,7 @@ redis.set "appgreeting", "Welcome Users!"
                    redis.set "visitorreward", 0
                    redis.incr "randomwinnercount"
                 end
+                
                 @randomwinnercount = redis.get "randomwinnercount"
                 if @randomwinnercount.empty?
                    @randomwinnercount = 0
@@ -37,11 +37,6 @@ redis.set "appgreeting", "Welcome Users!"
         get "/createinvoice/?" do 
                 erb :"createinvoice", :layout => :applayout
         end
-
-        get "/redisinfo/" do
-        	renfo = redis.info
-        	renfo.to_s
-        end	
 
         #dummy URL for looking at output
         get "/blarby/" do 
