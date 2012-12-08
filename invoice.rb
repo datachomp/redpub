@@ -10,8 +10,10 @@ class InvoiceApp < Sinatra::Base
         set :haml, :format => :html5
 
 redis = Redis.new
+redis.set "appgreeting", "Welcome Users!"
 
         get "/" do 
+                @greeting = redis.get "appgreeting"
                 erb :index, :layout => :applayout
         end
 
