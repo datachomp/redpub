@@ -12,11 +12,11 @@
       </ul>
     </div>
     <div class="span4">
-      <h3>List Appender</h3>
+      <h3>Video List</h3>
       <ul>
-        <li>blah</li>
-        <li>blah blah</li>
-        <li>blah and things</li>
+        <% @videos.each do |vid| %>
+          <li><%= vid %></li>
+        <% end %>
       </ul>
       
     </div>

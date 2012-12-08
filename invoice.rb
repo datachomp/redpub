@@ -27,7 +27,10 @@ redis.set "appgreeting", "Welcome Users!"
                 if @randomwinnercount.empty?
                    @randomwinnercount = 0
                 end
+
                 @greeting = redis.get "appgreeting"
+                @videos = redis.lrange "vidlist" ,0 ,-1
+
                 erb :index, :layout => :applayout
         end
 
@@ -39,5 +42,11 @@ redis.set "appgreeting", "Welcome Users!"
         	renfo = redis.info
         	renfo.to_s
         end	
+
+        #dummy URL for looking at output
+        get "/blarby/" do 
+            @videos = redis.lrange "vidlist" ,0 ,-1
+            @videos.inspect
+        end
 
 end
