@@ -35,7 +35,22 @@ class InvoiceApp < Sinatra::Base
         end
 
         get "/createinvoice/?" do 
-                erb :"createinvoice", :layout => :applayout
+            erb :"createinvoice", :layout => :applayout
+        end
+
+        post "/createinvoice/?" do
+
+            #grab an invoice number off the sequence
+            invoiceid = redis.incr "invoiceid"
+            invoicekey = 'invoice:' + invoiceid.to_s
+            email = params[:email]  
+            video = params[:selectvideo]
+            dateordered = Time.now  
+            
+            redis.hmset invoicekey, 'email',email, 'video', video, 'dateordered', dateordered
+
+            redirect '/' 
+                        
         end
 
         #dummy URL for looking at output
