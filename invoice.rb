@@ -28,6 +28,9 @@ class InvoiceApp < Sinatra::Base
                    @randomwinnercount = 0
                 end
 
+                keylist = redis.keys 'invoice:*'
+                @invoices = keylist = redis.sort( 'invoicelist', :by =>["email"], :get => ['*->video', '*->email'])
+
                 @greeting = redis.get "appgreeting"
                 @videos = redis.lrange "vidlist" ,0 ,-1
 
@@ -48,7 +51,7 @@ class InvoiceApp < Sinatra::Base
             dateordered = Time.now  
             
             redis.hmset invoicekey, 'email',email, 'video', video, 'dateordered', dateordered
-
+            redis.lpush('invoicelist', invoicekey)
             redirect '/' 
                         
         end
@@ -56,7 +59,22 @@ class InvoiceApp < Sinatra::Base
         #dummy URL for looking at output
         get "/blarby/" do 
             @videos = redis.lrange "vidlist" ,0 ,-1
-            @videos.inspect
+            #@videos.inspect
+            #keylist = redis.keys 'invoice:*'
+            keylist = redis.sort( 'invoicelist', :by =>["email"], :get => ['*->video', '*->email'])
+            #keylist.to_s
+            #@values = Array.new
+            keylist.each do |key|
+             #   temper = redis.hmget key["name"], "email"
+                #temper.inspect
+             #   @values.push(temper)
+                #@values.inspect
+                #p key["name"]
+                #p @values.to_s
+            end
+           # @values.flatten!
+           keylist.to_s
+            #@values.length.to_s
         end
 
 end

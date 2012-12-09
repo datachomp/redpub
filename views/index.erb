@@ -15,15 +15,17 @@
       <h3>Video List</h3>
       <ul>
         <% @videos.each do |vid| %>
-          <li><%= vid %></li>
+          <li><%= vid.to_s %></li>
         <% end %>
       </ul>
       
     </div>
     <div class="span4">
-      <h3>Something Else</h3>
+      <h3>invoice list</h3>
       <ul>
-        <li>pub/sub</li>
+        <% @invoices.map do |video,email| %>
+        <li><%= email %> <%= video %></li>
+        <% end %>
         </ul>
     </div>
   </div>
