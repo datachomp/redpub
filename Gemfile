@@ -14,3 +14,7 @@ gem "unicorn"
 gem "redis"
 #Redis monitoring webapp written in Sinatra
 gem 'redmon', require: false
+
+group :development do
+  gem "better_errors"
+end
