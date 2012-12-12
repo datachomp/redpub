@@ -3,6 +3,11 @@
 #  uri = URI.parse(REDISTOGO_URL)
 #  REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
 #end
+require "sinatra/base"
+require "better_errors"
+require './model/customer.rb'
+require './model/invoice.rb'
+
 class RedisAdminApp < Sinatra::Base
         enable :sessions
         register Sinatra::Flash
@@ -50,32 +55,6 @@ class RedisAdminApp < Sinatra::Base
             @videos = redis.lrange "vidlist" ,0 ,-1
             @videos.inspect
         end
-
-
-    class Customer
-        $redis = Redis.new
-
-        def self.createcustomer(email, name, happy)
-            keyid = $redis.incr "customerid"
-            customerkey = 'customer:' + keyid.to_s
-     
-            $redis.hmset customerkey, 'email',email, 'name', name, 'happy', happy, 'signupdate', Time.now
-            $redis.lpush('customerlist', customerkey)
-            $redis.lpush('customeremaillist', email)
-        end
-    end
-
-    class Invoice
-        $redis = Redis.new
-
-        def self.createinvoice(email, video)
-            keyid = $redis.incr "invoice"
-            invoicekey = 'invoice:' + keyid.to_s
-     
-            $redis.hmset invoicekey, 'email',email, 'video', video, 'dateordered', Time.now
-            $redis.lpush('invoicelist', invoicekey)
-        end
-    end
 end
 
    # def get_pk(classtype)

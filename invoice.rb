@@ -3,6 +3,8 @@
 #  uri = URI.parse(REDISTOGO_URL)
 #  REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
 #end
+require "sinatra/base"
+require "better_errors"
 
 class InvoiceApp < Sinatra::Base
         enable :sessions
@@ -10,6 +12,9 @@ class InvoiceApp < Sinatra::Base
         set :views, 'views/'
         set :public_folder, 'public/'
         set :haml, :format => :html5
+
+        use BetterErrors::Middleware
+        BetterErrors.application_root = File.expand_path("..", __FILE__)
 
         redis = Redis.new
 
@@ -28,9 +33,8 @@ class InvoiceApp < Sinatra::Base
                    @randomwinnercount = 0
                 end
 
-                keylist = redis.keys 'invoice:*'
-                @invoices = keylist = redis.sort( 'invoicelist', :by =>["email"], :get => ['*->video', '*->email'])
-
+                @invoices = Invoice.getinvoicedashboard
+                
                 @greeting = redis.get "appgreeting"
                 @videos = redis.lrange "vidlist" ,0 ,-1
 
@@ -42,18 +46,11 @@ class InvoiceApp < Sinatra::Base
         end
 
         post "/createinvoice/?" do
-
-            #grab an invoice number off the sequence
-            invoiceid = redis.incr "invoiceid"
-            invoicekey = 'invoice:' + invoiceid.to_s
             email = params[:email]  
             video = params[:selectvideo]
-            dateordered = Time.now  
             
-            redis.hmset invoicekey, 'email',email, 'video', video, 'dateordered', dateordered
-            redis.lpush('invoicelist', invoicekey)
+            Invoice.createinvoice(email, video)
             redirect '/' 
-                        
         end
 
         #dummy URL for looking at output
@@ -74,6 +71,7 @@ class InvoiceApp < Sinatra::Base
             end
            # @values.flatten!
            keylist.to_s
+           raise oops
             #@values.length.to_s
         end
 
