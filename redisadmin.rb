@@ -22,8 +22,8 @@ class RedisAdminApp < Sinatra::Base
 
             redis.set "visitorreward", 0
             redis.set "randomwinnercount", 0
-            redis.set "customerid",0
-            redis.set "invoiceid",0
+            redis.setnx "customerid",0
+            redis.setnx "invoiceid",0
 
             redis.rpush "vidlist", "Postgres"
             redis.rpush "vidlist", "RavenDB"
