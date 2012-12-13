@@ -22,6 +22,8 @@ class RedisAdminApp < Sinatra::Base
 
             redis.set "visitorreward", 0
             redis.set "randomwinnercount", 0
+            
+            #only set the value if the key doesn't exist
             redis.setnx "customerid",0
             redis.setnx "invoiceid",0
 
@@ -29,8 +31,8 @@ class RedisAdminApp < Sinatra::Base
             redis.rpush "vidlist", "RavenDB"
             redis.rpush "vidlist", "SQL Server"
 
-            Customer.createcustomer('robs@example.com', 'rob sullivan', 'yes')
-            Customer.createcustomer('robc@example.com', 'rob conery', 'yes')
+            Customer.createcustomer('robs@example.com', 'TopRob', 'rob sullivan', 'yes')
+            Customer.createcustomer('robc@example.com', 'AppDevil', 'rob conery', 'yes')
 
             Invoice.createinvoice('robs@example.com', 'Postgres')
             Invoice.createinvoice('robc@example.com', 'SQL Server')

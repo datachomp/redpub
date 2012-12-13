@@ -3,7 +3,7 @@ class Customer
 
 	$redis = Redis.new
 
-    def self.createcustomer(email, name, happy)
+    def self.createcustomer(email, password, name, happy)
       
       #All or nothing here. Everything will execute in order
       # as well as stay isolated, and rollback  
@@ -11,7 +11,7 @@ class Customer
         keyid = $redis.incr "customerid"
         customerkey = 'customer:' + keyid.to_s
      
-        $redis.hmset customerkey, 'email',email, 'name', name, 'happy', happy, 'signupdate', Time.now
+        $redis.hmset customerkey, 'email',email,'password',password, 'name', name, 'happy', happy, 'signupdate', Time.now
         $redis.lpush('customerlist', customerkey)
         $redis.lpush('customeremaillist', email)
       $redis.exec()
