@@ -5,6 +5,7 @@
 #end
 require "sinatra/base"
 require "better_errors"
+require './model/customer.rb'
 
 class InvoiceApp < Sinatra::Base
         enable :sessions

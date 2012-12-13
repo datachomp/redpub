@@ -23,7 +23,7 @@
     <div class="span4">
       <h3>invoice list</h3>
       <ul>
-        <% @invoices.map do |video,email| %>
+        <% @invoices.map do |key, video,email| %>
         <li><%= email %> <%= video %></li>
         <% end %>
         </ul>

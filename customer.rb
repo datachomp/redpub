@@ -34,15 +34,14 @@ class CustomerApp < Sinatra::Base
         end
 
         post "/create/?" do
-
-            #grab an invoice number off the sequence
+            #we would do some validation here
             email = params[:email]  
             name = params[:name]
+            password = params[:password]
             happy = 'yes'
             
-            Customer.createcustomer(email, name, happy)
+            Customer.createcustomer(email, password, name, happy)
             redirect '/' 
-                        
         end
 
 end
